@@ -1,5 +1,59 @@
 <html>
+<head>
+    <script src="js/Chart.bundle.min.js"></script>
+</head>
 <body>
-<p>This is results.html</p>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+(function() {
+    var makeRequest = function() {
+        httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = processRequest
+        httpRequest.open('GET', 'data')
+        httpRequest.send()
+    };
+
+    var processRequest = function() {
+        if (httpRequest.readyState == XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                var response = JSON.parse(httpRequest.responseText);
+                var labels = Object.keys(response).sort();
+                var data = []
+                labels.forEach(function(key) {
+                    data.push(response[key]);
+                }, null);
+                myChart.data.labels = labels
+                myChart.data.datasets[0].data = data;
+                myChart.update(300);
+                timer = setTimeout(makeRequest, 500);
+            }
+        }
+    };
+
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: '',
+                data: [],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+
+    var timer = setTimeout(makeRequest, 500);
+})();
+</script>
 </body>
 </html>
