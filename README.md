@@ -10,7 +10,9 @@ Pardon my ugly Javascript. It's not a primary language for me.
 Endpoints
 ---------
 / - Data entry (GET).
+
 /results - Pretty pictures (GET).
+
 /data - data entry (POST), retrieval (GET), and reset (DELETE). Used by the
 results endpoint.
 
