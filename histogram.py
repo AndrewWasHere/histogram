@@ -62,7 +62,7 @@ def data():
 
     elif request.method == 'DELETE':
         histogram = empty_histogram()
-        return modify_data_redirect_endpoint()
+        return ''
 
 
 if __name__ == '__main__':

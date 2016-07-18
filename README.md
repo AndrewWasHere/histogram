@@ -5,6 +5,8 @@ A simple web service to show the histogram of inputs.
 Or, a way to make the rolling of d6es (or whatever) over and over again slightly 
 more palatable.
 
+Pardon my ugly Javascript. It's not a primary language for me.
+
 Endpoints
 ---------
 / - Data entry (GET).
@@ -21,9 +23,7 @@ Install the Python requirements using pip:
 
 > $ pip install -r requirements.txt
 
-Install processing.js by downloading the latest processing.min.js from
-[http://processingjs.org/download/](http://processingjs.org/download/) 
-and copying it to the static/js directory.
+Install Chart.js by copying Chart.bundle.min.js into the static/js directory.
 
 License
 -------

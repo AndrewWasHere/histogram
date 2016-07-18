@@ -3,21 +3,57 @@
     <script src="js/Chart.bundle.min.js"></script>
 </head>
 <body>
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="myChart"></canvas>
+<button id="reset">Reset</button>
 <script>
 (function() {
+    // Reset button stuff.
+    document.getElementById('reset').onclick = function() {
+        httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {};
+        httpRequest.open('DELETE', 'data');
+        httpRequest.send();
+    };
+
+    // Chart stuff.
     var makeRequest = function() {
         httpRequest = new XMLHttpRequest();
-        httpRequest.onreadystatechange = processRequest
-        httpRequest.open('GET', 'data')
-        httpRequest.send()
+        httpRequest.onreadystatechange = processRequest;
+        httpRequest.open('GET', 'data');
+        httpRequest.send();
     };
 
     var processRequest = function() {
         if (httpRequest.readyState == XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
                 var response = JSON.parse(httpRequest.responseText);
-                var labels = Object.keys(response).sort();
+                var labels = Object.keys(response).sort(function(a, b) {
+                    var lhs = parseInt(a);
+                    var rhs = parseInt(b);
+                    var result = 0;
+                    if (isNaN(lhs) && isNaN(rhs)) {
+                        if (a < b) {
+                            result = -1
+                        }
+                        else if (a > b) {
+                            result = 1;
+                        }
+                        else {
+                            result = 0;
+                        }
+                    }
+                    else if (isNaN(lhs)) {
+                        result = 1;
+                    }
+                    else if (isNaN(rhs)) {
+                        result = -1;
+                    }
+                    else {
+                        result = lhs - rhs;
+                    }
+
+                    return result;
+                });
                 var data = []
                 labels.forEach(function(key) {
                     data.push(response[key]);
@@ -33,21 +69,40 @@
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
         type: 'bar',
+        xAxisID: 'value',
+        yAxisID: 'occurances',
         data: {
             labels: [],
             datasets: [{
-                label: '',
                 data: [],
+                backgroundColor: 'rgba(255, 0, 0, 0.5)',
                 borderWidth: 1
             }]
         },
         options: {
+            legend: {
+                display: false
+            },
             scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Values'
+                    }
+                }],
                 yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Occurrences'
+                    },
                     ticks: {
                         beginAtZero:true
                     }
                 }]
+            },
+            title: {
+                display: true,
+                text: 'Histogram'
             }
         }
     });
