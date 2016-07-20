@@ -6,6 +6,7 @@ This software is licensed under the BSD 3-Clause License.
 See LICENSE.txt at the root of the project or
 https://opensource.org/licenses/BSD-3-Clause
 """
+import argparse
 import collections
 import json
 import os
@@ -65,6 +66,18 @@ def data():
         return ''
 
 
+def parse_command_line():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--visible', action='store_true')
+    parser.add_argument('--port', nargs='?', default=None)
+    parser.add_argument('--debug', action='store_true')
+    args = parser.parse_args()
+    return args
+
+
 if __name__ == '__main__':
+    args = parse_command_line()
     histogram = empty_histogram()
-    app.run()
+    host = '0.0.0.0' if args.visible else None
+    debug = args.debug or None
+    app.run(host=host, port=args.port, debug=debug)
