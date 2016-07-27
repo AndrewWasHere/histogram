@@ -58,8 +58,10 @@
                 labels.forEach(function(key) {
                     data.push(response[key]);
                 }, null);
+                var total = data.reduce((a, b) => a + b, 0);
                 myChart.data.labels = labels
                 myChart.data.datasets[0].data = data;
+                myChart.options.title.text = 'Histogram for ' + total + ' entries';
                 myChart.update(300);
                 timer = setTimeout(makeRequest, 500);
             }
@@ -102,7 +104,8 @@
             },
             title: {
                 display: true,
-                text: 'Histogram'
+                fontSize: 18,
+                text: 'Histogram for 0 entries'
             }
         }
     });
