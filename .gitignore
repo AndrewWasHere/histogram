@@ -3,3 +3,6 @@
 
 # Python compiled files
 *.pyc
+
+# Chart.js
+Chart.bundle.min.js

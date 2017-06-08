@@ -69,7 +69,7 @@ def data():
 def parse_command_line():
     parser = argparse.ArgumentParser()
     parser.add_argument('--visible', action='store_true')
-    parser.add_argument('--port', nargs='?', default=None)
+    parser.add_argument('--port', nargs='?', type=int, default=None)
     parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
     return args
