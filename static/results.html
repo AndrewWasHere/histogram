@@ -4,15 +4,27 @@
 </head>
 <body>
 <canvas id="myChart"></canvas>
-<button id="reset">Reset</button>
+<button id="reset">Reset</button><br/>
+<input type="text" id="input"/><button id="remove">Remove</button>
 <script>
 (function() {
-    // Reset button stuff.
+    // Reset button empties the histogram.
     document.getElementById('reset').onclick = function() {
         httpRequest = new XMLHttpRequest();
         httpRequest.onreadystatechange = function() {};
         httpRequest.open('DELETE', 'data');
         httpRequest.send();
+    };
+
+    // Remove button drops a column value from the histogram.
+    document.getElementById('remove').onclick = function() {
+        var input = document.getElementById('input');
+        if (input.value) {
+            httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = function() {input.value = ''};
+            httpRequest.open('DELETE', 'data/' + input.value);
+            httpRequest.send();
+        }
     };
 
     // Chart stuff.

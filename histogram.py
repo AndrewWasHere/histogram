@@ -66,6 +66,14 @@ def data():
         return ''
 
 
+@app.route('/data/<val>', methods=['DELETE'])
+def value(val):
+    """Remove value."""
+    global histogram
+    histogram.pop(val, None)
+    return ''
+
+
 def parse_command_line():
     parser = argparse.ArgumentParser()
     parser.add_argument('--visible', action='store_true')
